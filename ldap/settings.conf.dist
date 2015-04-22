@@ -1,0 +1,27 @@
+#!/bin/bash
+
+#enviroment variables
+#and settings
+PUB_ENV=(
+  "DOMAIN=example.org"
+)
+
+ENV=(
+  "LDAP_ORGANISATION" "Example-Company"
+  "LDAP_ROOTPASS={crypt}\$6\$rounds=60000\$AIbklOGzurN6\$FOl9R8bgP4GVtXKeKTil2uMpJfSlEfcBM.1JJWKnrUgdA8Hxve4qONQLh9TprJviNb9TpeoMZdGGt8YnPu/uv."
+  "LDAP_URI=ldap:///"
+  "SSL_KEY_PRIV=`cat ssl.key | base64 -w0`"
+  "SSL_KEY_CERT=`cat ssl.crt | base64 -w0`" 
+)
+
+#Forwarded Ports
+PORTS=(
+  "389:389"
+)
+
+#Volumes to mount
+#$DATA is the data root dir from the main config
+VOLUMES=(
+  "$DATA_ROOT/ldap/lib:/var/lib/ldap"
+  "$DATA_ROOT/ldap/slapd.d:/etc/ldap/slapd.d"
+)

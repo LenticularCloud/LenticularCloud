@@ -13,20 +13,23 @@ run	apt-get -y update && \
   rm -rf /etc/ldap/slapd.d
 
 #copy the configs
-ADD conf /
-ADD ssl /etc/ldap/ssl
-ADD setup /setup
+ADD root/ /
+#ADD ssl /etc/ldap/ssl
+#ADD setup /setup
 
 RUN	chmod +x /usr/bin/slapd-start && \
     chown openldap:openldap -R /etc/ldap && \
-    chmod ugo+x -R /etc/ldap && \
-    chmod +x /setup/setup.sh
+    chmod ugo+x -R /etc/ldap 
+#    chmod +x /setup/setup.sh
 
 
 # Default configuration: can be overridden at the docker command line
 env	LDAP_ROOTPASS verySecure
+env LDAP_URI  ldap://ldap.example.org/
+env SSL_KEY_PRIV `cat ssl.key | base64 -w 0`
+env SSL_KEY_CERT `cat ssl.crt | base64 -w 0`
 env	LDAP_ORGANISATION Example-Company
-env	LDAP_DOMAIN example.com
+env	DOMAIN example.org
 
 expose 389
 
