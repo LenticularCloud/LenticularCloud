@@ -23,7 +23,7 @@ cp /etc/ssh/keys/* /etc/ssh/
 chmod root:root /etc/ssh/*
 chown 400 /etc/ssh/*_key
 
-chown gogs:gogs /home/gogs opt/gogs/data -R
+chown gogs:gogs /home/gogs /opt/gogs/data -R
 
 #run
 #start ssh
