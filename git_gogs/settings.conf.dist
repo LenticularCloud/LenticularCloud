@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#enviroment variables
+#and settings
+
+ENV=(
+)
+
+#Forwarded Ports
+PORTS=(
+  "22:22"
+  "127.0.0.1:8081:3000"
+)
+
+#Volumes to mount
+#$DATA is the data root dir from the main config
+VOLUMES=(
+  "$DATA_ROOT/git_gogs/data/:/home/gogs/"
+  "$DATA_ROOT/git_gogs/gogs_config/:/opt/gogs/custom/conf/"
+  "$DATA_ROOT/git_gogs/mysql/:/var/lib/mysql/"
+  "$DATA_ROOT/git_gogs/ssh/:/var/lib/mysql/"
+)

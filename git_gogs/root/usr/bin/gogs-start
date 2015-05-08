@@ -1,0 +1,32 @@
+#!/bin/bash
+# Author: TuxCoder
+# Date: 2015-05-08
+#
+# Script configure and start gogs service
+
+#check if empty data dir and new config
+config_file="/opt/gogs/custom/conf/app.ini"
+if [ ! -f ${config_file} ] ; then
+  #generate ssh keys
+  rm /etc/ssh/ssh_host*
+  dpkg-reconfigure openssh-server
+
+  for file in /etc/ssh/*sa_key.pub; do
+    ssh-keygen -r example.org -f $file > /home/gogs/sshkeys
+  done
+
+  cp /etc/ssh/ssh_host_* /etc/ssh/keys/
+fi
+
+#set rights
+cp /etc/ssh/keys/* /etc/ssh/
+chmod root:root /etc/ssh/*
+chown 400 /etc/ssh/*_key
+
+chown gogs:gogs /home/gogs -R
+
+#run
+#start ssh
+/etc/init.d/ssh start
+#start gogs
+gogs run web
