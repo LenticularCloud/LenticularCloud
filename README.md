@@ -14,5 +14,5 @@ Services:
 Usage
 -----
 
-  ./cloud.sh [conf|build|setup|run] SERVICE
+  ./cloud.sh SERVICE [conf|build|setup|run]
 

@@ -17,6 +17,6 @@ PORTS=(
 VOLUMES=(
   "$DATA_ROOT/git_gogs/data/:/home/gogs/"
   "$DATA_ROOT/git_gogs/gogs_config/:/opt/gogs/custom/conf/"
-  "$DATA_ROOT/git_gogs/mysql/:/var/lib/mysql/"
-  "$DATA_ROOT/git_gogs/ssh/:/var/lib/mysql/"
+  "$DATA_ROOT/git_gogs/ssh/:/etc/ssh/keys/"
+  "$DATA_ROOT/git_gogs/avatars/:/opt/gogs/data/avatars/"
 )
