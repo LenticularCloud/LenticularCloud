@@ -4,14 +4,14 @@
 #and settings
 PUB_ENV=(
   "DOMAIN=example.org"
+  "LDAP_URI=ldap://ldap.example.org:389/"
 )
 
 ENV=(
   "LDAP_ORGANISATION" "Example-Company"
   "LDAP_ROOTPASS={crypt}\$6\$rounds=60000\$AIbklOGzurN6\$FOl9R8bgP4GVtXKeKTil2uMpJfSlEfcBM.1JJWKnrUgdA8Hxve4qONQLh9TprJviNb9TpeoMZdGGt8YnPu/uv."
-  "LDAP_URI=ldap:///"
   "SSL_KEY_PRIV=`cat ssl.key | base64 -w0`"
-  "SSL_KEY_CERT=`cat ssl.crt | base64 -w0`" 
+  "SSL_KEY_CERT=`cat ssl.crt | base64 -w0`"
 )
 
 #Forwarded Ports

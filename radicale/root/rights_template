@@ -1,0 +1,18 @@
+
+# public can only rad
+[public]
+user: .*
+collection: ^public(/.+)?$
+permission: r
+
+# all users have write access
+[public_write]
+user: .+
+collection: ^public(/.+)?$
+permission: w
+
+# allow user to acces /username/*
+[owner]
+user: .+
+collection: ^%(login)s/.+$
+permission: rw
