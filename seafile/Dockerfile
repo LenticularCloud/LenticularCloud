@@ -2,7 +2,7 @@ FROM debian:jessie
 
 # Configure apt
 run	apt-get -y update && \
-	LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y sendmail supervisor rsyslog \
+	LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y sendmail supervisor rsyslog openssl \
   python2.7 python-setuptools python-imaging sqlite3 python-ldap && \
 	apt-get clean  && \
 	rm -rf /var/lib/apt/lists/*
