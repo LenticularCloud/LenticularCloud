@@ -1,0 +1,39 @@
+#!/bin/bash
+# Author: TuxCoder
+# Date: 2015-05-08
+#
+# Script configure and start gogs service
+
+#check if empty data dir and new config
+
+BASE=$(echo "dc=${DOMAIN}" | sed "s/\./,dc=/")
+
+SECRET_KEY=$(dd bs=16 count=1 if=/dev/random |base64)
+
+sed -i "s#__NAME__#${NAME}#g" /var/lib/seafile/ccnet/ccnet.conf
+sed -i "s#__LDAP_URL__#${LDAP_URI}#g"  /var/lib/seafile/ccnet/ccnet.conf
+sed -i "s#__ROOT_PW__#${ROOT_PW}#g"  /var/lib/seafile/ccnet/ccnet.conf
+sed -i "s#__BASE__#${BASE}#g"  /var/lib/seafile/ccnet/ccnet.conf
+
+sed -i "s#__SECRET_KEY__#${SECRET_KEY}#g" /var/lib/seafile/seahub_settings.py
+sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/seahub_settings.py
+
+
+if [ ! -f /var/lib/seafile/ccnet-data/mykey.peer ]; then
+  openssl genrsa -out /var/lib/seafile/ccnet-data/mykey.peer 4096
+fi
+
+if [ ! -f /var/lib/seafile/seahub-data/seahub.db ]; then
+  cp /seahub-template.db /var/lib/seafile/seahub-data/seahub.db
+fi
+
+if [ ! -f /var/lib/seafile/seafile-data/seafile.conf ]; then
+  cp /seafile-template.conf /var/lib/seafile/seafile-data/seafile.conf
+fi
+
+
+chown seafile:seafile /var/lib/seafile/ -R
+
+#run
+su seafile /var/lib/seafile/seafile-server-latest/seafile.sh start
+su seafile /var/lib/seafile/seafile-server-latest/seahub.sh start-fastcgi
