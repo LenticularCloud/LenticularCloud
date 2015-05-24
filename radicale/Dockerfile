@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:stretch
 
 # Configure apt
 run	apt-get -y update && \
