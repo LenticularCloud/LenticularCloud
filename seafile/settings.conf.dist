@@ -6,6 +6,8 @@
 ENV=(
   "ROOT_PW=123456"
   "NAME=example"
+  "SECRET_KEY=`dd bs=16 count=1 if=/dev/random |base64`"
+  "SEAFILE_DOMAIN=www.seafile.example.org"
 )
 
 #Forwarded Ports

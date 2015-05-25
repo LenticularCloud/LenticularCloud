@@ -1,7 +1,8 @@
 SECRET_KEY = "__SECRET_KEY__"
 
+FILE_SERVER_ROOT="https://__SEAFILE_DOMAIN__/seafhttp"
 
-SITE_BASE = 'https://__DOMAIN__/'
+SITE_BASE = 'https://__SEAFILE_DOMAIN__/'
 
 SITE_NAME = '__DOMAIN__'
 

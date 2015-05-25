@@ -17,6 +17,7 @@ sed -i "s#__BASE__#${BASE}#g"  /var/lib/seafile/ccnet/ccnet.conf
 
 sed -i "s#__SECRET_KEY__#${SECRET_KEY}#g" /var/lib/seafile/seahub_settings.py
 sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/seahub_settings.py
+sed -i "s#__SEAFILE_DOMAIN__#${SEAFILE_DOMAIN}#g" /var/lib/seafile/seahub_settings.py
 
 
 if [ ! -f /var/lib/seafile/ccnet/mykey.peer ]; then
