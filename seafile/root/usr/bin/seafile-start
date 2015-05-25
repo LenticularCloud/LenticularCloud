@@ -45,4 +45,5 @@ chown seafile:seafile /var/lib/seafile/ -R
 
 #run
 su seafile /var/lib/seafile/seafile-server-latest/seafile.sh start
+export SEAFILE_FASTCGI_HOST=0.0.0.0
 su seafile /var/lib/seafile/seafile-server-latest/seahub.sh start-fastcgi
