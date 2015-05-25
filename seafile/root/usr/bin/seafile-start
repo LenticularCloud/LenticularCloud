@@ -19,16 +19,25 @@ sed -i "s#__SECRET_KEY__#${SECRET_KEY}#g" /var/lib/seafile/seahub_settings.py
 sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/seahub_settings.py
 
 
-if [ ! -f /var/lib/seafile/ccnet-data/mykey.peer ]; then
-  openssl genrsa -out /var/lib/seafile/ccnet-data/mykey.peer 4096
+if [ ! -f /var/lib/seafile/ccnet/mykey.peer ]; then
+  openssl genrsa -out /var/lib/seafile/ccnet/mykey.peer 4096
 fi
 
-if [ ! -f /var/lib/seafile/seahub-data/seahub.db ]; then
-  cp /seahub-template.db /var/lib/seafile/seahub-data/seahub.db
+if [ ! -f /var/lib/seafile/ccnet/ccnet.conf ]; then
+  cp /template/ccnet.conf /var/lib/seafile/ccnet/ccnet.conf
+fi
+
+if [ ! -f /var/lib/seafile/ccnet/seafile.ini ]; then
+  cp /template/seafile.ini /var/lib/seafile/ccnet/seafile.ini
+fi
+
+
+if [ ! -f /var/lib/seafile/ccnet/seahub.db ]; then
+  cp /template/seahub.db /var/lib/seafile/ccnet/seahub.db
 fi
 
 if [ ! -f /var/lib/seafile/seafile-data/seafile.conf ]; then
-  cp /seafile-template.conf /var/lib/seafile/seafile-data/seafile.conf
+  cp /template/seafile.conf /var/lib/seafile/seafile-data/seafile.conf
 fi
 
 
