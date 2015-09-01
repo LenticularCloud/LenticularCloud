@@ -28,4 +28,4 @@ RUN	chmod +x /usr/bin/gogs-start
 
 expose 3000 22
 
-CMD     ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+CMD /usr/bin/gogs-start
