@@ -30,6 +30,10 @@ if [ ! -d "${CONFIG_ROOT}/${SERVICE}" ]; then
   usage
 fi
 
+remove_after_exit () {
+  docker wait $1
+  docker rm $1
+}
 
 case $ACTION in
 "conf")
@@ -43,7 +47,7 @@ case $ACTION in
   if [ -f "${CONFIG_ROOT}/ldap/settings.conf" ];then
     source ${CONFIG_ROOT}/ldap/settings.conf
     for i in ${PUB_ENV[@]};do
-      arg_e="${arg_e} -e $i"
+      arg_e="${arg_e} `echo $i | sed 's#\\\\#\\\\\\\\#' | sed 's# #\\\\ #'`"
     done
 
     unset PUB_ENV ENV PORTS VOLUMES
@@ -56,14 +60,15 @@ case $ACTION in
     done
 
     for i in ${ENV[@]};do
-      arg_e="${arg_e} -e $i"
+      arg_e="${arg_e} `echo $i | sed 's#\\\\#\\\\\\\\#' | sed 's# #\\\\ #'`"
     done
 
     for i in ${VOLUMES[@]};do
       arg_v="${arg_v} -v $i"
     done
 
-    docker run $arg_p $arg_e $arg_v cloud/$SERVICE:latest
+    ID=$(echo "$arg_e" | docker run -d -i $arg_p $arg_v cloud/$SERVICE:latest)
+    remove_after_exit $ID > /dev/null  &
   else
     echo "can't find config file (${CONFIG_ROOT}/${SERVICE}/settings.conf). please reclone repo"
     usage

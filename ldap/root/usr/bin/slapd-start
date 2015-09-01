@@ -4,6 +4,16 @@
 # 
 # Script to genereate ldap config
 
+##read variables from pipe
+read_array_from_pipe() { read -a "$@" <&0; }
+
+read_array_from_pipe conf
+
+for i in ${conf[@]};do
+  eval $i
+done
+
+
 BASE=$(echo "dc=${DOMAIN}" | sed "s/\./,dc=/")
 URI=$LDAP_URI
 PASSWORD=$LDAP_ROOTPASS
@@ -17,7 +27,6 @@ sed -i "s/__BASE__/${BASE}/g"          /etc/ldap/ldap.conf
 sed -i "s#__URI__#${URI}#g"          /etc/ldap/ldap.conf
 sed -i "s#__URI__#${URI}#g"          /etc/ldap/slapd.conf
 sed -i "s/__BASE__/${BASE}/g"          /etc/ldap/slapd.conf
-sed -i "s/__URI__/${BASE}/g"           /etc/ldap/slapd.conf
 sed -i "s#__PASSWORD__#${PASSWORD}#g"  /etc/ldap/slapd.conf
 
 #init
@@ -42,48 +51,4 @@ fi
 
 
 
-
-/usr/sbin/slapd -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d -u openldap -g openldap -s 160
-
-
-
-exit 0;
-set -eu
-
-status () {
-  echo "---> ${@}" >&2
-}
-
-set -x
-: LDAP_ROOTPASS=${LDAP_ROOTPASS}
-: LDAP_DOMAIN=${LDAP_DOMAIN}
-: LDAP_ORGANISATION=${LDAP_ORGANISATION}
-
-if [ ! -e /var/lib/ldap/docker_bootstrapped ]; then
-  status "configuring slapd for first run"
-
-  cat <<EOF | debconf-set-selections
-slapd slapd/internal/generated_adminpw password ${LDAP_ROOTPASS}
-slapd slapd/internal/adminpw password ${LDAP_ROOTPASS}
-slapd slapd/password2 password ${LDAP_ROOTPASS}
-slapd slapd/password1 password ${LDAP_ROOTPASS}
-slapd slapd/dump_database_destdir string /var/backups/slapd-VERSION
-slapd slapd/domain string ${LDAP_DOMAIN}
-slapd shared/organization string ${LDAP_ORGANISATION}
-slapd slapd/backend string HDB
-slapd slapd/purge_database boolean true
-slapd slapd/move_old_database boolean true
-slapd slapd/allow_ldap_v2 boolean false
-slapd slapd/no_configuration boolean false
-slapd slapd/dump_database select when needed
-EOF
-
-  dpkg-reconfigure -f noninteractive slapd
-  touch /var/lib/ldap/docker_bootstrapped
-else
-  status "found already-configured slapd"
-fi
-
-status "starting slapd"
-set -x
-exec /usr/sbin/slapd -h "ldap:///" -u openldap -g openldap -s 160
+/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
