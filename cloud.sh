@@ -71,7 +71,7 @@ case $ACTION in
       ID=$(echo "$arg_e" | docker run -d -i $arg_p $arg_v cloud/$SERVICE:latest)
       remove_after_exit $ID > /dev/null  &
     else
-      echo "$arg_e" | docker run -i $arg_p $arg_v cloud/$SERVICE:latest
+      echo "$arg_e" | docker run --rm=true -i $arg_p $arg_v cloud/$SERVICE:latest
     fi
   else
     echo "can't find config file (${CONFIG_ROOT}/${SERVICE}/settings.conf). please reclone repo"
