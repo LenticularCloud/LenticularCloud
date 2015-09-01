@@ -1,5 +1,0 @@
-dn: ou=user, __BASE__
-ou: user
-objectclass: top
-objectClass: organizationalUnit
-structuralObjectClass: organizationalUnit
