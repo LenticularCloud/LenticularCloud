@@ -67,8 +67,12 @@ case $ACTION in
       arg_v="${arg_v} -v $i"
     done
 
-    ID=$(echo "$arg_e" | docker run -d -i $arg_p $arg_v cloud/$SERVICE:latest)
-    remove_after_exit $ID > /dev/null  &
+    if [ "$detach" = "true" ]; then
+      ID=$(echo "$arg_e" | docker run -d -i $arg_p $arg_v cloud/$SERVICE:latest)
+      remove_after_exit $ID > /dev/null  &
+    else
+      echo "$arg_e" | docker run -i $arg_p $arg_v cloud/$SERVICE:latest
+    fi
   else
     echo "can't find config file (${CONFIG_ROOT}/${SERVICE}/settings.conf). please reclone repo"
     usage
