@@ -2,7 +2,17 @@
 # Author: TuxCoder
 # Date: 2015-05-08
 #
-# Script configure and start gogs service
+# Script configure and start seafile service
+
+##read variables from pipe
+read_array_from_pipe() { read -a "$@" <&0; }
+
+read_array_from_pipe conf
+
+for i in ${conf[@]};do
+  eval $i
+done
+
 
 #check if empty data dir and new config
 
@@ -48,3 +58,5 @@ chown seafile:seafile /var/lib/seafile/ -R
 su seafile /var/lib/seafile/seafile-server-latest/seafile.sh start
 export SEAFILE_FASTCGI_HOST=0.0.0.0
 su seafile /var/lib/seafile/seafile-server-latest/seahub.sh start-fastcgi
+
+/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf

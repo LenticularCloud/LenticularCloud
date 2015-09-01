@@ -21,4 +21,4 @@ RUN	chmod +x /usr/bin/seafile-start
 
 expose 8080 10001 8082 12001
 
-CMD     ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+CMD /usr/bin/seafile-start
