@@ -2,7 +2,16 @@
 # Author: TuxCoder
 # Date: 2015-05-08
 #
-# Script configure and start gogs service
+# Script configure and start radicale service
+
+##read variables from pipe
+read_array_from_pipe() { read -a "$@" <&0; }
+
+read_array_from_pipe conf
+
+for i in ${conf[@]};do
+  eval $i
+done
 
 #check if empty data dir and new config
 

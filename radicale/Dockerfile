@@ -16,4 +16,4 @@ RUN	chmod +x /usr/bin/radicale-start
 
 expose 8080
 
-CMD     ["/usr/bin/supervisord", "-n", "-c", "/etc/supervisor/supervisord.conf"]
+CMD /usr/bin/radicale-start
