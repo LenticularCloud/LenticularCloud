@@ -8,7 +8,7 @@ run	apt-get -y update && \
 	rm -rf /var/lib/apt/lists/*
 
 #copy the configs
-ADD https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_4.3.1_x86-64.tar.gz /seafile-server.tar.gz
+ADD https://bintray.com/artifact/download/seafile-org/seafile/seafile-server_4.3.2_x86-64.tar.gz /seafile-server.tar.gz
 run adduser -q --home /var/lib/seafile --disabled-password --disabled-login seafile && \
     tar xzf seafile-server.tar.gz -C /var/lib/seafile/ && \
     ln -s /var/lib/seafile/seafile-server-* /var/lib/seafile/seafile-server-latest
