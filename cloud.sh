@@ -68,7 +68,8 @@ case $ACTION in
     done
 
     if [ "$detach" = "true" ]; then
-      ID=$(echo "$arg_e" | docker run -d -i $arg_p $arg_v cloud/$SERVICE:latest)
+      ID=$(docker run -di $arg_p $arg_v cloud/$SERVICE:latest)
+      echo $arg_e | docker attach $ID
       remove_after_exit $ID > /dev/null  &
     else
       echo "$arg_e" | docker run --rm=true -i $arg_p $arg_v cloud/$SERVICE:latest
