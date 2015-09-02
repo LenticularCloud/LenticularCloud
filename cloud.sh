@@ -35,6 +35,10 @@ remove_after_exit () {
   docker rm $1
 }
 
+escape_var () {
+  echo $@ | sed 's#\\\\#\\\\\\\\#' | sed 's# #\\\\ #' 
+}
+
 case $ACTION in
 "conf")
   echo "not implemented yet"
@@ -47,7 +51,7 @@ case $ACTION in
   if [ -f "${CONFIG_ROOT}/ldap/settings.conf" ];then
     source ${CONFIG_ROOT}/ldap/settings.conf
     for i in ${PUB_ENV[@]};do
-      arg_e="${arg_e} `echo $i | sed 's#\\\\#\\\\\\\\#' | sed 's# #\\\\ #'`"
+      arg_e="${arg_e} `escape_var $i`"
     done
 
     unset PUB_ENV ENV PORTS VOLUMES
@@ -60,7 +64,7 @@ case $ACTION in
     done
 
     for i in ${ENV[@]};do
-      arg_e="${arg_e} `echo $i | sed 's#\\\\#\\\\\\\\#' | sed 's# #\\\\ #'`"
+      arg_e="${arg_e} `escape_var $i`"
     done
 
     for i in ${VOLUMES[@]};do
