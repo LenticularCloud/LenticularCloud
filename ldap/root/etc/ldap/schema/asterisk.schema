@@ -823,19 +823,19 @@ objectClass (
 	AsteriskDialplan
 	NAME 'AsteriskDialplan'
 	DESC 'Asterisk Dialplan Information'
-	SUP top STRUCTURAL
+	SUP top AUXILIARY
 	MUST ( AstExtension ) )
 
 objectClass (
 	AsteriskAccount
 	NAME 'AsteriskAccount'
 	DESC 'Asterisk Account Information'
-	SUP top STRUCTURAL
+	SUP top AUXILIARY
 	MUST ( AstAccountName ) )
 
 objectClass (
 	AsteriskMailbox
 	NAME 'AsteriskMailbox'
 	DESC 'Asterisk Mailbox Information'
-	SUP top STRUCTURAL
+	SUP top AUXILIARY
 	MUST ( AstVoicemailMailbox ) )
