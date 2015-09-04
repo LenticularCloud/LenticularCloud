@@ -819,7 +819,7 @@ olcObjectClasses: ( AsteriskVoiceMail
 olcObjectClasses: ( AsteriskDialplan
     NAME 'AsteriskDialplan'
     DESC 'Asterisk Dialplan Information'
-    SUP top STRUCTURAL
+    SUP top AUXILIARY
     MUST ( 
     AstExtension
     )
@@ -828,7 +828,7 @@ olcObjectClasses: ( AsteriskDialplan
 olcObjectClasses: ( AsteriskAccount
     NAME 'AsteriskAccount'
     DESC 'Asterisk Account Information'
-    SUP top STRUCTURAL
+    SUP top AUXILIARY
     MUST ( 
     AstAccountName
     )
@@ -837,7 +837,7 @@ olcObjectClasses: ( AsteriskAccount
 olcObjectClasses: ( AsteriskMailbox
     NAME 'AsteriskMailbox'
     DESC 'Asterisk Mailbox Information'
-    SUP top STRUCTURAL
+    SUP top AUXILIARY
     MUST (
     AstVoicemailMailbox
     )
