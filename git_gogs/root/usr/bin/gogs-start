@@ -29,8 +29,8 @@ fi
 
 #set rights
 cp /etc/ssh/keys/* /etc/ssh/
-chmod root:root /etc/ssh/*
-chown 400 /etc/ssh/*_key
+chown root:root /etc/ssh/*
+chmod 400 /etc/ssh/*_key
 
 chown gogs:gogs /home/gogs /opt/gogs/data -R
 
