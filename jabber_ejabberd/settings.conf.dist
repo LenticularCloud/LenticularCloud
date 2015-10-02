@@ -1,0 +1,20 @@
+#!/bin/bash
+
+#enviroment variables
+#and settings
+
+ENV=(
+  "ROOT_PW=`passwdgen -12`"
+)
+
+#Forwarded Ports
+PORTS=(
+  "127.0.0.1:8082:8080"
+)
+
+#Volumes to mount
+#$DATA is the data root dir from the main config
+VOLUMES=(
+  "$DATA_ROOT/radicale/data/:/var/lib/radicale/collections"
+  "$DATA_ROOT/radicale/rights/:/etc/radicale/rights"
+)

@@ -1,0 +1,34 @@
+#!/bin/bash
+# Author: TuxCoder
+# Date: 2015-05-08
+#
+# Script configure and start radicale service
+
+##read variables from pipe
+read_array_from_pipe() { read -a "$@" <&0; }
+
+read_array_from_pipe conf
+
+for i in ${conf[@]};do
+  eval $i
+done
+
+#check if empty data dir and new config
+
+BASE=$(echo "dc=${DOMAIN}" | sed "s/\./,dc=/")
+
+sed -i "s#__LDAP_URI__#${LDAP_URI}#g"  /etc/radicale/config
+sed -i "s#__ROOT_PW__#${ROOT_PW}#g"  /etc/radicale/config
+sed -i "s#__BASE__#${BASE}#g"  /etc/radicale/config
+
+if [ ! -f /etc/radicale/rights/config ]; then
+  cp /rights_template /etc/radicale/rights/config
+fi
+
+
+mkdir /var/log/radicale/ -p
+chown radicale:radicale /var/log/radicale/
+chown radicale:radicale /var/lib/radicale/collections -R
+
+#run
+su radicale -s /bin/sh -c radicale
