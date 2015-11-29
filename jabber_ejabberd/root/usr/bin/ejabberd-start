@@ -1,8 +1,9 @@
 #!/bin/bash
 # Author: TuxCoder
-# Date: 2015-05-08
+# Date: 2015-10-02
 #
 # Script configure and start radicale service
+
 
 ##read variables from pipe
 read_array_from_pipe() { read -a "$@" <&0; }
@@ -17,18 +18,31 @@ done
 
 BASE=$(echo "dc=${DOMAIN}" | sed "s/\./,dc=/")
 
-sed -i "s#__LDAP_URI__#${LDAP_URI}#g"  /etc/radicale/config
-sed -i "s#__ROOT_PW__#${ROOT_PW}#g"  /etc/radicale/config
-sed -i "s#__BASE__#${BASE}#g"  /etc/radicale/config
+IFS=':' read -a LDAP <<< "`echo ${LDAP_URI} | sed 's#ldap://##' | sed 's#/##'`"
 
-if [ ! -f /etc/radicale/rights/config ]; then
-  cp /rights_template /etc/radicale/rights/config
-fi
+echo $SSL_KEY_PRIV | base64 -d > /etc/ejabberd/ejabberd.pem
+echo >> /etc/ejabberd/ejabberd.pem
+echo $SSL_KEY_CERT | base64 -d >> /etc/ejabberd/ejabberd.pem
 
 
-mkdir /var/log/radicale/ -p
-chown radicale:radicale /var/log/radicale/
-chown radicale:radicale /var/lib/radicale/collections -R
+
+sed -i "s#__LDAP_SERVER__#${LDAP[0]}#g" /etc/ejabberd/ejabberd.yml
+sed -i "s#__LDAP_PORT__#${LDAP[1]}#g"   /etc/ejabberd/ejabberd.yml
+sed -i "s#__ROOT_PW__#${ROOT_PW}#g"     /etc/ejabberd/ejabberd.yml
+sed -i "s#__BASE__#${BASE}#g"           /etc/ejabberd/ejabberd.yml
+sed -i "s#__DOMAIN__#${DOMAIN}#g"       /etc/ejabberd/ejabberd.yml
+sed -i "s#__CIPHERS__#${CIPHERS}#g"     /etc/ejabberd/ejabberd.yml
+
+
+EJABBERDRUN=/var/run/ejabberd
+mkdir -p $EJABBERDRUN
+chmod 0755 $EJABBERDRUN /var/lib/ejabberd /etc/ejabberd/
+chown ejabberd:ejabberd $EJABBERDRUN /var/lib/ejabberd /etc/ejabberd/
+
 
 #run
-su radicale -s /bin/sh -c radicale
+su ejabberd -s /bin/sh -c "/usr/sbin/ejabberdctl start"
+
+while true ; do
+  sleep 1000;
+done
