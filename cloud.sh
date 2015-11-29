@@ -9,17 +9,26 @@ DATA_ROOT="${CONFIG_ROOT}/data"
 SERVICE=$1
 ACTION=$2
 DEBUG=false
-DETATCH=false
 
 usage() {
-  echo "USAGE: $0 SERVICE ACTION"
+  echo "USAGE: $0 SERVICE ACTION [ARGUMENTS]"
+  echo "    ACTION: "
+  echo "      conf"
+  echo "      build [-f|--fresh]"
+  echo "      setup"
+  echo "      run [-d|detach]"
+  _help
+  exit 1
+}
+
+_help (){
+  echo "HELP: Don't Panic"
   echo "    SERVICE:    must be one of the name dirs"
   echo "    ACTION: [conf|build|setup|run]"
   echo "      conf:   configure server"
   echo "      build:  build the container"
   echo "      setup:  configure the container for first usage"
   echo "      run:    starts the service"
-  exit 1
 }
 
 if [ -z "${SERVICE}" ]; then
@@ -40,11 +49,9 @@ escape_var () {
   echo $@ | sed 's#\\\\#\\\\\\\\#' | sed 's# #\\\\ #' 
 }
 
-case $ACTION in
-"conf")
-  echo "not implemented yet"
-  ;;
-"run")
+_run () {
+  DETATCH=false
+
   for WORD in "$@" ; do
     case $WORD in
       -*)  true ;
@@ -101,7 +108,15 @@ case $ACTION in
     echo "can't find config file (${CONFIG_ROOT}/${SERVICE}/settings.conf). please reclone repo"
     usage
   fi
+}
+
+case $ACTION in
+"conf")
+  echo "not implemented yet"
   ;;
+"run")
+  __run $@
+ ;;
 "build")
   docker build -t "cloud/${SERVICE}:`date +%F_%H-%M-%S`" -t "cloud/${SERVICE}:latest" $SERVICE
   ;;
