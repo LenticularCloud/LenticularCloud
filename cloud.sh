@@ -8,7 +8,8 @@ CONFIG_ROOT="$(readlink -nf "${0%/*}")"
 DATA_ROOT="${CONFIG_ROOT}/data"
 SERVICE=$1
 ACTION=$2
-
+DEBUG=false
+DETATCH=false
 
 usage() {
   echo "USAGE: $0 SERVICE ACTION"
@@ -44,6 +45,24 @@ case $ACTION in
   echo "not implemented yet"
   ;;
 "run")
+  for WORD in "$@" ; do
+    case $WORD in
+      -*)  true ;
+        case $WORD in
+          --detatch) [[ $DEBUG ]] && echo "detatch"
+            DETATCH=true
+            shift ;;
+          -d) [[ $DEBUG ]] && echo "detatch short"
+            DETATCH=true
+            shift ;;
+          -*) [[ $DEBUG ]] && echo "Unrecognized Short Option"
+            echo "Unrecognized argument"
+          ;;
+        esac
+      ;;
+    esac
+  done
+
   arg_e=""
   arg_p=""
   arg_v=""
@@ -71,7 +90,7 @@ case $ACTION in
       arg_v="${arg_v} -v $i"
     done
 
-    if [ "$detach" = "true" ]; then
+    if "$DETATCH"; then
       ID=$(docker run -di $arg_p $arg_v cloud/$SERVICE:latest)
       echo $arg_e | docker attach $ID
       remove_after_exit $ID > /dev/null  &
