@@ -115,7 +115,7 @@ case $ACTION in
   echo "not implemented yet"
   ;;
 "run")
-  __run $@
+  _run $@
  ;;
 "build")
   docker build -t "cloud/${SERVICE}:`date +%F_%H-%M-%S`" -t "cloud/${SERVICE}:latest" $SERVICE
