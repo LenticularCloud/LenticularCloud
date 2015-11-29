@@ -4,17 +4,21 @@
 #and settings
 
 ENV=(
-  "ROOT_PW=`passwdgen -12`"
+  "ROOT_PW=123456"
+  "SSL_KEY_PRIV=`cat /etc/ssl/private/ssl-cert-snakeoil.key | base64 -w0`"
+  "SSL_KEY_CERT=`cat /etc/ssl/certs/ssl-cert-snakeoil.pem  | base64 -w0`"
+  "CIPHERS=`openssl ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!3DES:!DES:!MD5:!PSK:!RC4`"
 )
 
 #Forwarded Ports
 PORTS=(
-  "127.0.0.1:8082:8080"
+  "0.0.0.0:5280:5280"
+  "0.0.0.0:5222:5222"
+  "0.0.0.0:5269:5269"
 )
 
 #Volumes to mount
 #$DATA is the data root dir from the main config
 VOLUMES=(
-  "$DATA_ROOT/radicale/data/:/var/lib/radicale/collections"
-  "$DATA_ROOT/radicale/rights/:/etc/radicale/rights"
+  "$DATA_ROOT/jabber_ejabberd/data/:/var/lib/ejabberd/"
 )
