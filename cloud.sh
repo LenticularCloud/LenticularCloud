@@ -49,6 +49,13 @@ escape_var () {
   echo $@ | sed 's#\\\\#\\\\\\\\#' | sed 's# #\\\\ #' 
 }
 
+DEBUG=''
+for WORD in "$@" ; do
+  if [ "$WORD" == "--debug" ]; then
+    DEBUG=true
+  fi
+done
+
 _run () {
   DETATCH=false
 
@@ -62,8 +69,9 @@ _run () {
           -d) [[ $DEBUG ]] && echo "detatch short"
             DETATCH=true
             shift ;;
-          -*) [[ $DEBUG ]] && echo "Unrecognized Short Option"
+          -*)
             echo "Unrecognized argument"
+            [[ $DEBUG ]] && echo "$WORD"
           ;;
         esac
       ;;
@@ -110,6 +118,35 @@ _run () {
   fi
 }
 
+_build () {
+  FORCE=false
+
+  for WORD in "$@" ; do
+    case $WORD in
+      -*)  true ;
+        case $WORD in
+          --force) [[ $DEBUG ]] && echo "force"
+            FORCE=true
+            shift ;;
+          -f) [[ $DEBUG ]] && echo "force short"
+            FORCE=true
+            shift ;;
+          -*)
+            echo "Unrecognized argument"
+            [[ $DEBUG ]] && echo "$WORD"
+          ;;
+        esac
+      ;;
+    esac
+  done
+  attr=""
+  if $FORCE ;then
+    attr="$attr --no-cache=true"
+  fi
+  
+  docker build $attr -t "cloud/${SERVICE}:`date +%F_%H-%M-%S`" -t "cloud/${SERVICE}:latest" $SERVICE
+}
+
 case $ACTION in
 "conf")
   echo "not implemented yet"
@@ -118,7 +155,7 @@ case $ACTION in
   _run $@
  ;;
 "build")
-  docker build -t "cloud/${SERVICE}:`date +%F_%H-%M-%S`" -t "cloud/${SERVICE}:latest" $SERVICE
+  _build $@
   ;;
 "setup")
   if [ -f "${CONFIG_ROOT}/${SERVICE}/settings.conf" ];then
