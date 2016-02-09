@@ -154,8 +154,9 @@ listen:
     port: 5280
     ip: "::"
     module: ejabberd_http
-    ## request_handlers:
-    ##   "/pub/archive": mod_http_fileserver
+      request_handlers:
+    #  "/pub/archive": mod_http_fileserver
+      "": mod_http_upload
     web_admin: true
     http_poll: true
     http_bind: true
@@ -488,6 +489,10 @@ access:
   ## Only allow to register from localhost
   trusted_network: 
     loopback: allow
+  soft_upload_quota:
+    all: 1000 #MiB
+  hard_upload_quota:
+    all: 1100 #MiB
   ## Do not establish S2S connections with bad servers
   ## s2s: 
   ##   bad_servers: deny
@@ -593,6 +598,13 @@ modules:
       - "pep" # pep requires mod_caps
   mod_mam:
     db_type: odbc
+  ## https://github.com/processone/ejabberd-contrib/tree/master/mod_http_upload
+  mod_http_upload: 
+    docroot: /var/lib/ejabberd/upload
+    put_url: "https://@HOST@:5433"
+  mod_http_upload_quota:
+    max_days: 60
+    host: upload.@HOST@
   mod_register: 
     ##
     ## Protect In-Band account registrations with CAPTCHA.
