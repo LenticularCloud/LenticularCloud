@@ -20,23 +20,10 @@ BASE=$(echo "dc=${DOMAIN}" | sed "s/\./,dc=/")
 
 SECRET_KEY=$(dd bs=16 count=1 if=/dev/random |base64)
 
-sed -i "s#__NAME__#${NAME}#g" /var/lib/seafile/ccnet/ccnet.conf
-sed -i "s#__LDAP_URL__#${LDAP_URI}#g"  /var/lib/seafile/ccnet/ccnet.conf
-sed -i "s#__ROOT_PW__#${ROOT_PW}#g"  /var/lib/seafile/ccnet/ccnet.conf
-sed -i "s#__BASE__#${BASE}#g"  /var/lib/seafile/ccnet/ccnet.conf
-
-sed -i "s#__SECRET_KEY__#${SECRET_KEY}#g" /var/lib/seafile/seahub_settings.py
-sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/seahub_settings.py
-sed -i "s#__SEAFILE_DOMAIN__#${SEAFILE_DOMAIN}#g" /var/lib/seafile/seahub_settings.py
-
-
 if [ ! -f /var/lib/seafile/ccnet/mykey.peer ]; then
   openssl genrsa -out /var/lib/seafile/ccnet/mykey.peer 4096
 fi
 
-if [ ! -f /var/lib/seafile/conf/ccnet.conf ]; then
-  cp /template/ccnet.conf /var/lib/seafile/conf/ccnet.conf
-fi
 
 if [ ! -f /var/lib/seafile/ccnet/seafile.ini ]; then
   cp /template/seafile.ini /var/lib/seafile/ccnet/seafile.ini
@@ -44,12 +31,19 @@ fi
 
 
 if [ ! -f /var/lib/seafile/ccnet/seahub.db ]; then
+  #@TODO something else is depricated
   cp /template/seahub.db /var/lib/seafile/ccnet/seahub.db
 fi
 
-if [ ! -f /var/lib/seafile/conf/seafile.conf ]; then
-  cp /template/seafile.conf /var/lib/seafile/conf/seafile.conf
-fi
+
+sed -i "s#__NAME__#${NAME}#g" /var/lib/seafile/conf/ccnet.conf
+sed -i "s#__LDAP_URL__#${LDAP_URI}#g"  /var/lib/seafile/conf/ccnet.conf
+sed -i "s#__ROOT_PW__#${ROOT_PW}#g"  /var/lib/seafile/conf/ccnet.conf
+sed -i "s#__BASE__#${BASE}#g"  /var/lib/seafile/conf/ccnet.conf
+
+sed -i "s#__SECRET_KEY__#${SECRET_KEY}#g" /var/lib/seafile/seahub_settings.py
+sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/seahub_settings.py
+sed -i "s#__SEAFILE_DOMAIN__#${SEAFILE_DOMAIN}#g" /var/lib/seafile/seahub_settings.py
 
 
 chown seafile:seafile /var/lib/seafile/ -R
