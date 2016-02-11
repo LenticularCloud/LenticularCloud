@@ -34,8 +34,8 @@ if [ ! -f /var/lib/seafile/ccnet/mykey.peer ]; then
   openssl genrsa -out /var/lib/seafile/ccnet/mykey.peer 4096
 fi
 
-if [ ! -f /var/lib/seafile/ccnet/ccnet.conf ]; then
-  cp /template/ccnet.conf /var/lib/seafile/config/ccnet.conf
+if [ ! -f /var/lib/seafile/conf/ccnet.conf ]; then
+  cp /template/ccnet.conf /var/lib/seafile/conf/ccnet.conf
 fi
 
 if [ ! -f /var/lib/seafile/ccnet/seafile.ini ]; then
@@ -47,8 +47,8 @@ if [ ! -f /var/lib/seafile/ccnet/seahub.db ]; then
   cp /template/seahub.db /var/lib/seafile/ccnet/seahub.db
 fi
 
-if [ ! -f /var/lib/seafile/seafile-data/seafile.conf ]; then
-  cp /template/seafile.conf /var/lib/seafile/seafile-data/seafile.conf
+if [ ! -f /var/lib/seafile/conf/seafile.conf ]; then
+  cp /template/seafile.conf /var/lib/seafile/conf/seafile.conf
 fi
 
 
