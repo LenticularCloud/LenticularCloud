@@ -35,7 +35,7 @@ if [ ! -f /var/lib/seafile/ccnet/mykey.peer ]; then
 fi
 
 if [ ! -f /var/lib/seafile/ccnet/ccnet.conf ]; then
-  cp /template/ccnet.conf /var/lib/seafile/ccnet/ccnet.conf
+  cp /template/ccnet.conf /var/lib/seafile/config/ccnet.conf
 fi
 
 if [ ! -f /var/lib/seafile/ccnet/seafile.ini ]; then
