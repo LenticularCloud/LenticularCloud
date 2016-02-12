@@ -40,6 +40,7 @@ sed -i "s#__NAME__#${NAME}#g" /var/lib/seafile/conf/ccnet.conf
 sed -i "s#__LDAP_URL__#${LDAP_URI}#g"  /var/lib/seafile/conf/ccnet.conf
 sed -i "s#__ROOT_PW__#${ROOT_PW}#g"  /var/lib/seafile/conf/ccnet.conf
 sed -i "s#__BASE__#${BASE}#g"  /var/lib/seafile/conf/ccnet.conf
+sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/conf/ccnet.conf
 
 sed -i "s#__SECRET_KEY__#${SECRET_KEY}#g" /var/lib/seafile/seahub_settings.py
 sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/seahub_settings.py

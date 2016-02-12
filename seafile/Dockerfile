@@ -14,7 +14,8 @@ run adduser -q --home /var/lib/seafile --disabled-password --disabled-login seaf
     ln -s /var/lib/seafile/seafile-server-* /var/lib/seafile/seafile-server-latest
 ADD root/ /
 
-RUN	chmod +x /usr/bin/seafile-start
+RUN	chmod +x /usr/bin/seafile-start; \
+    ln -s /var/lib/seafile/seahub-data/seahub.db /var/lib/seafile/seafile-server-latest/seahub/seahub/seahub.db
 
 
 # Default configuration: can be overridden at the docker command line
