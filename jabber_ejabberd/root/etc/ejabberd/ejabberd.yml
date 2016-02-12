@@ -154,9 +154,9 @@ listen:
     port: 5280
     ip: "::"
     module: ejabberd_http
-      request_handlers:
+    request_handlers:
     #  "/pub/archive": mod_http_fileserver
-      "": mod_http_upload
+      "upload": mod_http_upload
     web_admin: true
     http_poll: true
     http_bind: true
@@ -600,11 +600,10 @@ modules:
     db_type: odbc
   ## https://github.com/processone/ejabberd-contrib/tree/master/mod_http_upload
   mod_http_upload: 
-    docroot: /var/lib/ejabberd/upload
-    put_url: "https://@HOST@:5433"
+    docroot: "@HOME@/upload"
+    put_url: "https://@HOST@/upload"
   mod_http_upload_quota:
     max_days: 60
-    host: upload.@HOST@
   mod_register: 
     ##
     ## Protect In-Band account registrations with CAPTCHA.
