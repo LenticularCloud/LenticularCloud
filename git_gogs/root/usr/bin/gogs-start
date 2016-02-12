@@ -14,10 +14,9 @@ for i in ${conf[@]};do
 done
 
 #check if empty data dir and new config
-config_file="/opt/gogs/custom/conf/app.ini"
-if [ ! -f ${config_file} ] ; then
+ssh_key="/etc/ssh/ssh_host_rsa_key"
+if [ ! -f ${ssh_key} ] ; then
   #generate ssh keys
-  rm /etc/ssh/ssh_host*
   dpkg-reconfigure openssh-server
 
   for file in /etc/ssh/*sa_key.pub; do
@@ -30,7 +29,7 @@ fi
 #set rights
 cp /etc/ssh/keys/* /etc/ssh/
 chown root:root /etc/ssh/*
-chmod 400 /etc/ssh/*_key
+chmod 400 /etc/ssh/*_key /etc/ssh/keys/*
 
 chown gogs:gogs /home/gogs /opt/gogs/data -R
 
