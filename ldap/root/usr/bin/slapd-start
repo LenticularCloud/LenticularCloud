@@ -46,9 +46,8 @@ if [ ! -f /var/lib/ldap/DB_CONFIG ] && [ ! -f /etc/ldap/slapd.d/cn\=config ]; th
   slapadd -F "/etc/ldap/slapd.d" -b "cn=config" -l "${initldif}"
   rm ${initldif};
   find /etc/ldap/schema -name "*.ldif" | xargs  -n 1 slapadd -b "cn=config" -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d -l
-  chown openldap:openldap -R /etc/ldap /var/lib/ldap
 fi
 
-
+chown openldap:openldap -R /etc/ldap /var/lib/ldap
 
 /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
