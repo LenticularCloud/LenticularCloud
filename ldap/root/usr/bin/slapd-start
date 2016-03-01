@@ -35,17 +35,15 @@ if [ ! -f /var/lib/ldap/DB_CONFIG ] && [ ! -f /etc/ldap/slapd.d/cn\=config ]; th
   #rm /etc/ldap/slapd.d/* -R
   #rm /var/lib/ldap/* -R
   
-  initldif="/tmp/slapd.init.ldif"
-  cat /usr/share/slapd/slapd.init.ldif > ${initldif}
   sed -i -e "s|@BACKEND@|bdb|g" ${initldif}
   sed -i -e "s|@BACKENDOBJECTCLASS@|olcHdbConfig|g" ${initldif}
   sed -i -e "s|@BACKENDOPTIONS@|olcDbConfig: set_cachesize 0 2097152 0\nolcDbConfig: set_lk_max_objects 1500\nolcDbConfig: set_lk_max_locks 1500\nolcDbConfig: set_lk_max_lockers 1500|g" ${initldif}
   sed -i -e "s|@SUFFIX@|$BASE|g" ${initldif}
   sed -i -e "s|@PASSWORD@|$PASSWORD|g" ${initldif}
 
-  slapadd -F "/etc/ldap/slapd.d" -b "cn=config" -l "${initldif}"
-  rm ${initldif};
-  find /etc/ldap/schema -name "*.ldif" | xargs  -n 1 slapadd -b "cn=config" -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d -l
+  ##convert database
+  slaptest -f /etc/ldap/slapd.conf -F /etc/ldap/slapd.d
+  find /etc/ldap/schema -name "*.ldif" | xargs  -n 1 slapadd -b "cn=config" -F /etc/ldap/slapd.d -l
 fi
 
 chown openldap:openldap -R /etc/ldap /var/lib/ldap
