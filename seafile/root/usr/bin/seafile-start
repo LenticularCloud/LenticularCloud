@@ -42,9 +42,9 @@ sed -i "s#__ROOT_PW__#${ROOT_PW}#g"  /var/lib/seafile/conf/ccnet.conf
 sed -i "s#__BASE__#${BASE}#g"  /var/lib/seafile/conf/ccnet.conf
 sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/conf/ccnet.conf
 
-sed -i "s#__SECRET_KEY__#${SECRET_KEY}#g" /var/lib/seafile/seahub_settings.py
-sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/seahub_settings.py
-sed -i "s#__SEAFILE_DOMAIN__#${SEAFILE_DOMAIN}#g" /var/lib/seafile/seahub_settings.py
+sed -i "s#__SECRET_KEY__#${SECRET_KEY}#g" /var/lib/seafile/conf/seahub_settings.py
+sed -i "s#__DOMAIN__#${DOMAIN}#g" /var/lib/seafile/conf/seahub_settings.py
+sed -i "s#__SEAFILE_DOMAIN__#${SEAFILE_DOMAIN}#g" /var/lib/seafile/conf/seahub_settings.py
 
 
 chown seafile:seafile /var/lib/seafile/ -R
